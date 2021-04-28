@@ -1,8 +1,8 @@
 import http from '../http-common';
 class FaqApi {
 
-    getAnswer() {
-        return http.get('/chatbot/answers/questions');
+    getAnswer(q) {
+        return http.get(`/chatbot/answers?question=${q}`);
     }
 
 }

@@ -17,12 +17,16 @@ export class Chatbot extends Component {
         this.getApiAnswers()
     }
 
-    getApiAnswers() {
-        FaqApi.getAnswer()
+    getApiAnswers(q) {
+        FaqApi.getAnswer('delivery')
             .then(response => {
                 this.setState({
                     apiAnswer: response.data
                 });
+                this.state.apiAnswer.map((answer) => (
+                    console.log(answer.answerText)
+                ))
+
             })
             .catch(e => {
                 console.log(e);
@@ -31,16 +35,16 @@ export class Chatbot extends Component {
     }
 
     render() {
-        const { name, help } = this.state;
+        const { name, help, speech } = this.state;
         const steps = [
             {
                 id: '0',
-                message: 'Hello! Welcome to ROOM1\'s chatbot!',
+                message: 'Hello! Welcome to ROOM Ones chatbot!',
                 trigger: '1'
             },
             {
                 id: '1',
-                message: 'What\'s your name?',
+                message: 'Please enter your name',
                 trigger: 'name'
             },
             {
@@ -68,9 +72,7 @@ export class Chatbot extends Component {
             <div className="contact">
                 <div className="container">
                     <div className="container">
-
-                        <ChatBot steps={steps} />
-
+                        <ChatBot speechSynthesis={{ enable: true, lang: 'en' }} recognitionEnable={true} steps={steps} />
                     </div>
 
                 </div>
@@ -78,4 +80,4 @@ export class Chatbot extends Component {
         )
     }
 }
-export default Chatbot
+export default Chatbot;

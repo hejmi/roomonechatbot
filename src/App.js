@@ -8,9 +8,8 @@ function App() {
       <header className="App-header">
         Welcome to ROOM 1
         <img src={logo} className="App-logo" alt="logo" width="300" />
-        <p>
           <Chatbot></Chatbot>
-        </p>
+
       </header>
     </div>
   );
