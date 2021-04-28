@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import ChatBot from "react-simple-chatbot";
-
-const name = "";
+import FaqApi from "../services/FaqApi";
 
 export class Chatbot extends Component {
     constructor(props) {
@@ -10,12 +9,29 @@ export class Chatbot extends Component {
         this.state = {
             name: '',
             help: '',
-            age: '',
+            apiAnswer: ''
         };
     }
 
+    componentDidMount() {
+        this.getApiAnswers()
+    }
+
+    getApiAnswers() {
+        FaqApi.getAnswer()
+            .then(response => {
+                this.setState({
+                    apiAnswer: response.data
+                });
+            })
+            .catch(e => {
+                console.log(e);
+            })
+
+    }
+
     render() {
-        const { name, help, age } = this.state;
+        const { name, help } = this.state;
         const steps = [
             {
                 id: '0',
@@ -24,7 +40,7 @@ export class Chatbot extends Component {
             },
             {
                 id: '1',
-                message: 'What is your name?',
+                message: 'What\'s your name?',
                 trigger: 'name'
             },
             {
@@ -34,7 +50,7 @@ export class Chatbot extends Component {
             },
             {
                 id: '2',
-                message: 'Hi {previousValue}! How can I help you?',
+                message: 'Hi {previousValue}! How may I help you?',
                 trigger: 'help'
             },
             {
