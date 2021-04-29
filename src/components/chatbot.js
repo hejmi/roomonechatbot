@@ -9,12 +9,19 @@ export class Chatbot extends Component {
         this.state = {
             name: '',
             help: '',
-            apiAnswer: ''
+            apiAnswer: '',
+            opened: false,
+            voice: false
         };
     }
 
     componentDidMount() {
-        this.getApiAnswers()
+        //this.getApiAnswers()
+    }
+
+    toggleFloating = ({ opened, voice }) => {
+        this.setState({ opened });
+        this.setState({ voice });
     }
 
     getApiAnswers(q) {
@@ -35,26 +42,27 @@ export class Chatbot extends Component {
     }
 
     render() {
-        const { name, help, speech } = this.state;
+        const { name, help, voice, opened } = this.state;
         const steps = [
             {
                 id: '0',
-                message: 'Hello! Welcome to ROOM Ones chatbot!',
+                message: 'Hello and welcome to ROOM Ones chatbot, ',
                 trigger: '1'
             },
             {
                 id: '1',
-                message: 'Please enter your name',
+                message: 'Who am I talking to?',
                 trigger: 'name'
             },
             {
                 id: 'name',
                 user: true,
+                placeholder: 'Enter your name please...',
                 trigger: '2'
             },
             {
                 id: '2',
-                message: 'Hi {previousValue}! How may I help you?',
+                message: 'Hi {previousValue}! How may I help you today?',
                 trigger: 'help'
             },
             {
@@ -72,7 +80,7 @@ export class Chatbot extends Component {
             <div className="contact">
                 <div className="container">
                     <div className="container">
-                        <ChatBot speechSynthesis={{ enable: true, lang: 'en' }} recognitionEnable={true} steps={steps} />
+                        <ChatBot botDelay={2000} steps={steps} opened={opened} toggleFloating={this.toggleFloating} floating={true} speechSynthesis={{ enable: {voice}, lang: 'en' }} recognitionEnable={true} />
                     </div>
 
                 </div>
